@@ -8,8 +8,6 @@
  * @author SYJ
  */
 public class Customer {
-    // Attributes based on profile requirements
-    // 基于个人资料要求的属性
     private String username;
     private String password;
     private String name;
@@ -68,8 +66,7 @@ public class Customer {
     private String address;
     private String nationality;
 
-    // Constructor to initialize a new customer object
-    // 用于初始化新客户对象的构造函数
+
     public Customer(String username, String password, String name, String gender, 
                     int age, String phone, String email, String address, String nationality) {
         this.username = username;
@@ -83,8 +80,6 @@ public class Customer {
         this.nationality = nationality;
     }
 
-    // Getters and Setters (Encapsulation)
-    // 获取器和设置器 (封装)
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
