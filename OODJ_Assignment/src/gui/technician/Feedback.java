@@ -8,11 +8,18 @@ package gui.technician;
  *
  * @author USER
  */
-public class tech3 extends javax.swing.JFrame {
+// 1. 先在上面加这两个变量来“记住”数据
+    public class Feedback extends javax.swing.JFrame {
 
-    
-    public tech3() {
+    // 1. 先在上面加这两个变量来“记住”数据
+    private String currentJobId;
+    private String currentUser;
+
+    // 2. 修改你的 Constructor
+    public Feedback(String selectedApptId, String loggedInUser) {
         initComponents();
+        this.currentJobId = selectedApptId; // 把传进来的 ID 存起来
+        this.currentUser = loggedInUser;    // 把传进来的名字存起来
     }
 
     
@@ -44,6 +51,11 @@ public class tech3 extends javax.swing.JFrame {
         });
 
         jButton2.setText("Submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,14 +91,60 @@ public class tech3 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+                                            
+        // 1. Create an instance of the Technician Dashboard
+        // We pass 'currentUser' so the dashboard still knows who is logged in
+        gui.technician.TechnicianDashboard dashboard = new gui.technician.TechnicianDashboard(currentUser);
+        
+        // 2. Make the dashboard visible
+        dashboard.setVisible(true);
+        
+        // 3. Close the current JobStatus window
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                                                
+        // 1. Get the text from the feedback text area
+        String feedbackText = jTextArea1.getText(); 
+        
+        // 2. Validation: Check if it's empty
+        if (feedbackText.trim().equals("")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter your feedback before submitting!");
+            return;
+        }
+        
+        try {
+            // 3. Open feedbacks.txt in APPEND mode
+            java.io.FileWriter writer = new java.io.FileWriter("data/feedbacks.txt", true);
+            
+            // 4. Write data format: ApptID, Username, Feedback
+            writer.write(currentJobId + "," + currentUser + "," + feedbackText + "\n");
+            writer.close(); 
+            
+            // 5. Show success message
+            javax.swing.JOptionPane.showMessageDialog(this, "Feedback submitted successfully!");
+            
+            // === NEW LOGIC: GO BACK TO DASHBOARD ===
+            // 6. Create the dashboard and pass the current user
+            gui.technician.TechnicianDashboard dashboard = new gui.technician.TechnicianDashboard(currentUser);
+            dashboard.setVisible(true);
+            
+            // 7. Close the feedback window
+            this.dispose();
+            
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error saving feedback: " + e.getMessage());
+        }
+    
+    
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new tech3().setVisible(true);
+                new Feedback("", "").setVisible(true);
             }
         });
     }

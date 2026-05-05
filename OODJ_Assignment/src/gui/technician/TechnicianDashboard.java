@@ -8,23 +8,26 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import gui.common.Login;
 public class TechnicianDashboard extends javax.swing.JFrame {
 
-    
-    public TechnicianDashboard() {
-        initComponents(); // This is the default line that draws the window
-    
-        loadAppointments(); // ADD THIS LINE RIGHT HERE!
+    private String loggedInUser;
 
+
+    
+    public TechnicianDashboard(String username) {
+        initComponents();
+        this.loggedInUser = username;
+        
+        loadAppointments(); 
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        lblWelcome = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -45,7 +48,7 @@ public class TechnicianDashboard extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setText("welcome");
+        lblWelcome.setText("welcome");
 
         jButton1.setText("view job");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -55,8 +58,18 @@ public class TechnicianDashboard extends javax.swing.JFrame {
         });
 
         jButton2.setText("feedback");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("log out");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("Technician Dashboard");
@@ -78,7 +91,7 @@ public class TechnicianDashboard extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)))
                 .addContainerGap())
@@ -89,7 +102,7 @@ public class TechnicianDashboard extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel2)
                 .addGap(7, 7, 7)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -102,68 +115,64 @@ public class TechnicianDashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+// --- 1. VIEW JOB BUTTON ---
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    // 1. Get the index of the row the user clicked on
-    // It returns -1 if they didn't click anything
-    int selectedRow = jTable1.getSelectedRow();
-
-    // 2. Data Validation: Did they actually select a row?
-    if (selectedRow == -1) {
-        // No row selected! Show an error message.
-        javax.swing.JOptionPane.showMessageDialog(this, "Please select a job from the table first!");
-    } else {
-        // 3. Row is selected! Grab the Appointment ID.
-        // Assuming Appointment ID is in Column 0 (the very first column)
-        String selectedApptId = jTable1.getValueAt(selectedRow, 0).toString();
-        
-        // 4. Open your JobStatus frame and pass the ID to it
-        // (Make sure the name "JobStatus" matches your actual JFrame file name)
-        JobStatus nextScreen = new JobStatus(selectedApptId);
-        nextScreen.setVisible(true);
-        
-        // 5. Close the dashboard (optional, but keeps the screen clean)
-        dispose(); 
-    }
-
+int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a job first!");
+        } else {
+            String selectedApptId = jTable1.getValueAt(selectedRow, 0).toString();
+            JobStatus statusForm = new JobStatus(selectedApptId, loggedInUser);
+            statusForm.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a job first!");
+        } else {
+            String selectedApptId = jTable1.getValueAt(selectedRow, 0).toString();
+            Feedback feedbackScreen = new Feedback(selectedApptId, loggedInUser);
+            feedbackScreen.setVisible(true);
+            this.dispose();
+        
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to log out?");
+        if (choice == JOptionPane.YES_OPTION) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
     public void loadAppointments() {
-    // 1. Get the data model of your table 
-    // Make sure 'jTable1' matches the actual variable name of your table!
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    
-    // 2. Clear any empty rows that the GUI builder put there by default
-    model.setRowCount(0); 
+    model.setRowCount(0); // Clear existing rows
 
     try {
-        // 3. Open the text file
-        BufferedReader reader = new BufferedReader(new FileReader("Appointments.txt"));
+        // UPDATE: Point to the data folder
+        java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("data/appointments.txt"));
         String line;
-
-        // 4. Read the file line by line
+        
         while ((line = reader.readLine()) != null) {
-            
-            // Split the line using your comma delimiter
-            String[] rowData = line.split(","); 
-            
-            // 5. Add this row to the table
-            model.addRow(rowData);
+            String[] rowData = line.split(",");
+            model.addRow(rowData); // Add data to the table
         }
         reader.close();
-
+        
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error loading file: " + e.getMessage());
+        System.out.println("Error: Cannot find data/appointments.txt");
     }
 }
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new TechnicianDashboard().setVisible(true);
+                new TechnicianDashboard("TestUser").setVisible(true);
             }
         });
     }
@@ -172,9 +181,9 @@ public class TechnicianDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables
 }
