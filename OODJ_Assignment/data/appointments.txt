@@ -1,3 +1,4 @@
-A001,John Doe,JBC1234,Oil Change,Completed
+A001,John Doe,JBC1234,Oil Change,Pending
 A002,Alice Smith,WKL9876,Tyre Replacement,Pending
 A003,Bob Lee,PQR5555,Engine Check,Completed
+A004,Charlie Brown,VBT1010,Brake Repair,Pending

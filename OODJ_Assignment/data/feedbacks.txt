@@ -1,2 +1,2 @@
-
-A003,Tech01,done
+A003,Tech01,Engine was overheating due to low coolant. Fixed.
+A001,Tech02,Customer requested extra check on wipers.

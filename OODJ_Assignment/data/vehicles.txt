@@ -1,1 +1,3 @@
-
+JBC1234,John Doe,Toyota Vios,2020
+WKL9876,Alice Smith,Honda City,2022
+PQR5555,Bob Lee,Proton Saga,2019

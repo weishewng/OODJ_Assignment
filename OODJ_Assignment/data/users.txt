@@ -1,3 +1,4 @@
 Tech01,123456,Technician
 Tech02,abc123,Technician
 Manager01,admin,Manager
+Cust01,pass123,Customer
