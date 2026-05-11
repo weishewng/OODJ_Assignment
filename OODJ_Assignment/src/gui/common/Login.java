@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui.common;
-import gui.technician.TechnicianDashboard;
-import javax.swing.JOptionPane;
+
+import java.io.IOException;
 
 public class Login extends javax.swing.JFrame {
     public Login() {
@@ -151,7 +151,7 @@ public class Login extends javax.swing.JFrame {
             }
             reader.close(); // Always close the file reader
             
-        } catch (Exception e) {
+        } catch (IOException e) {
             // Show error if users.txt is not found
             javax.swing.JOptionPane.showMessageDialog(this, "System Error: Cannot find users.txt");
         }
@@ -191,6 +191,7 @@ public class Login extends javax.swing.JFrame {
     public static void main(String args[]) {
         
             java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Login().setVisible(true);
             }

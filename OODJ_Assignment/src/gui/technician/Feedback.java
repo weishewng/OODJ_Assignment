@@ -8,18 +8,18 @@ package gui.technician;
  *
  * @author USER
  */
-// 1. 先在上面加这两个变量来“记住”数据
+
     public class Feedback extends javax.swing.JFrame {
 
-    // 1. 先在上面加这两个变量来“记住”数据
+    
     private String currentJobId;
     private String currentUser;
 
-    // 2. 修改你的 Constructor
+  
     public Feedback(String selectedApptId, String loggedInUser) {
         initComponents();
-        this.currentJobId = selectedApptId; // 把传进来的 ID 存起来
-        this.currentUser = loggedInUser;    // 把传进来的名字存起来
+        this.currentJobId = selectedApptId; 
+        this.currentUser = loggedInUser;    
     }
 
     

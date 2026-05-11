@@ -4,11 +4,10 @@
  */
 package gui.technician;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import gui.common.Login;
+import java.io.IOException;
 public class TechnicianDashboard extends javax.swing.JFrame {
 
     private String loggedInUser;
@@ -164,16 +163,13 @@ int selectedRow = jTable1.getSelectedRow();
         }
         reader.close();
         
-    } catch (Exception e) {
+    } catch (IOException e) {
         System.out.println("Error: Cannot find data/appointments.txt");
     }
 }
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TechnicianDashboard("TestUser").setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new TechnicianDashboard("TestUser").setVisible(true);
         });
     }
 

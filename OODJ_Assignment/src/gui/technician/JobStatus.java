@@ -4,8 +4,10 @@
  */
 package gui.technician;
 
+import java.awt.HeadlessException;
     import java.io.BufferedReader;
     import java.io.FileReader;
+import java.io.IOException;
     import javax.swing.JOptionPane;
 
     
@@ -188,7 +190,7 @@ public class JobStatus extends javax.swing.JFrame {
             dashboard.setVisible(true);
             this.dispose(); // Close this window
             
-        } catch (Exception e) {
+        } catch (HeadlessException | IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating status: " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -238,8 +240,9 @@ public class JobStatus extends javax.swing.JFrame {
 }
    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                // 确保这里有两个引号，并且以 .setVisible(true); 结尾
+                
                 new JobStatus("", "").setVisible(true); 
             }
         });
