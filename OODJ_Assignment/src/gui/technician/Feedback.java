@@ -4,6 +4,9 @@
  */
 package gui.technician;
 
+import java.awt.HeadlessException;
+import java.io.IOException;
+
 /**
  *
  * @author USER
@@ -133,7 +136,7 @@ package gui.technician;
             // 7. Close the feedback window
             this.dispose();
             
-        } catch (Exception e) {
+        } catch (HeadlessException | IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error saving feedback: " + e.getMessage());
         }
     
@@ -143,6 +146,7 @@ package gui.technician;
     public static void main(String args[]) {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Feedback("", "").setVisible(true);
             }
